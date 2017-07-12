@@ -9,6 +9,7 @@ from vunit import VUnit
 
 ui = VUnit.from_argv()
 ui.add_osvvm()
+ui.add_bfm()
 
 src_path = join(dirname(__file__), "src")
 
