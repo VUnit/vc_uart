@@ -11,12 +11,15 @@ ui = VUnit.from_argv()
 ui.add_osvvm()
 ui.add_verification_components()
 
-src_path = join(dirname(__file__), "src")
+root = dirname(__file__)
+src_path = join(root, "src")
 
-uart_lib = ui.add_library("uart_lib")
-uart_lib.add_source_files(join(src_path, "*.vhd"))
+ui.library("vunit_lib").add_source_files([
+  join(root, '..', '..', 'vc_axi', 'src', '*.vhd'),
+  join(root, '..', '..', 'src', '*.vhd')
+])
 
-tb_uart_lib = ui.add_library("tb_uart_lib")
-tb_uart_lib.add_source_files(join(src_path, "test", "*.vhd"))
+ui.add_library("uart_lib").add_source_files(join(src_path, "*.vhd"))
+ui.add_library("tb_uart_lib").add_source_files(join(src_path, "test", "*.vhd"))
 
 ui.main()
