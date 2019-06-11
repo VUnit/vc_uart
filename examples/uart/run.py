@@ -4,20 +4,27 @@
 #
 # Copyright (c) 2014-2019, Lars Asplund lars.anders.asplund@gmail.com
 
-from os.path import join, dirname
+from os import environ
+from os.path import join, dirname, abspath
 from vunit import VUnit
 
-ui = VUnit.from_argv()
-ui.add_osvvm()
-ui.add_verification_components()
 
 root = dirname(__file__)
 src_path = join(root, "src")
 
-ui.library("vunit_lib").add_source_files([
-  join(root, '..', '..', 'vc_axi', 'src', '*.vhd'),
-  join(root, '..', '..', 'src', '*.vhd')
-])
+ui = VUnit.from_argv()
+ui.add_osvvm()
+
+wh = ui.add_verification_components()
+
+try:
+    if environ['CI']:
+        wh['AXI']['path'] = abspath(join(root, '..', '..', 'vc_axi'))
+except KeyError as err:
+    print('Could not retrieve envvar', err)
+
+wh['UART']['path'] = abspath(join(root, '..', '..'))
+ui.use_verification_components(wh, ['UART'])
 
 ui.add_library("uart_lib").add_source_files(join(src_path, "*.vhd"))
 ui.add_library("tb_uart_lib").add_source_files(join(src_path, "test", "*.vhd"))
