@@ -1,0 +1,12 @@
+{
+  "name": "UART",
+  "lib": "vunit_lib",
+  "provides": [
+    "Master",
+    "Slave"
+  ],
+  "depends": {
+    "VUnit": " distribute-axi-uart",
+    "AXI": ""
+  }
+}
