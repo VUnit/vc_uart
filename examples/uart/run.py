@@ -4,6 +4,14 @@
 #
 # Copyright (c) 2014-2019, Lars Asplund lars.anders.asplund@gmail.com
 
+"""
+VHDL UART
+---------
+
+A more realistic test bench of an UART to show VUnit VHDL usage on a
+typical module.
+"""
+
 from os import environ
 from os.path import join, dirname, abspath
 from vunit import VUnit
@@ -14,8 +22,7 @@ src_path = join(root, "src")
 
 ui = VUnit.from_argv()
 ui.add_osvvm()
-
-wh = ui.add_verification_components()
+wh = ui.add_verification_components(abspath(join(root, '..', '..', '..')))
 
 try:
     if environ['CI']:
@@ -23,10 +30,10 @@ try:
 except KeyError as err:
     print('Could not retrieve envvar', err)
 
-wh['UART']['path'] = abspath(join(root, '..', '..'))
 ui.use_verification_components(wh, ['UART'])
 
 ui.add_library("uart_lib").add_source_files(join(src_path, "*.vhd"))
 ui.add_library("tb_uart_lib").add_source_files(join(src_path, "test", "*.vhd"))
 
-ui.main()
+if __name__ == '__main__':
+    ui.main()
