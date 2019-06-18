@@ -23,7 +23,7 @@ ui.add_osvvm()
 ui.add_verification_components()
 
 ui.library("vunit_lib").add_source_files([
-  join(root, '..', '..', 'vc_axi', 'src', '*.vhd'),
+  join(root, '..', '..', '..', 'vc_axi', 'src', '*.vhd'),
   join(root, '..', '..', 'src', '*.vhd')
 ])
 

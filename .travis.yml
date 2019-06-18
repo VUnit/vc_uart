@@ -3,6 +3,5 @@ language: minimal
 install: skip
 script:
   - git clone -b distribute-axi-uart --recurse-submodules https://github.com/1138-4EB/vunit /tmp/vunit
-  - git clone https://github.com/VUnit/vc_axi
-  - docker run --rm -tv /tmp/vunit:/tmp/vunit -e PYTHONPATH=/tmp/vunit -v $(pwd):/src -w /src vunit/dev:llvm tox -e py37-examples-ghdl
-
+  - git clone https://github.com/VUnit/vc_axi ../vc_axi
+  - docker run --rm -tv /tmp/vunit:/tmp/vunit -e PYTHONPATH=/tmp/vunit -v $(pwd)/..:/src -w /src/vc_uart vunit/dev:llvm tox -e py37-examples-ghdl
